@@ -84,14 +84,14 @@ async function loadGame(gameId) {
     console.log('Game loaded.');
 
     console.log('Loading maze #' + curGame.game.maze.id);
-    curMaze = await loadMaze(curGame.game.maze.id).then();
+    await loadMaze(curGame.game.maze.id).then();
 
     totalScore = 1000;
     moveCount = 0;
 }
 
 function startReplay() {
-    PLAYBACK_SPEED = PLAYBACK_SPEED - curMaze.challenge * 5;
+    PLAYBACK_SPEED = 100 - curMaze.challenge * 5;
     console.log('PLAYBACK_SPEED is ' + PLAYBACK_SPEED);
     replayTimer = setInterval(nextAct, PLAYBACK_SPEED);
 }
@@ -127,6 +127,11 @@ function nextAct() {
         renderOutcomes(act.outcomes);
     } else {
         clearInterval(replayTimer);
+
+        // load the next game!
+        $('#selGame > option:selected').removeAttr('selected').next('option').attr('selected', 'selected');
+        loadGame($('#selGame option:selected').val());
+        var theInterval = setInterval(function() {clearInterval(theInterval); startReplay();}, 1000);
     }
 }
 
@@ -196,7 +201,9 @@ function loadGameSelect() {
             return m.id == game.mazeStub.id;
         });
 
-        opts.push(`<option value='${game.gameId}'>${team.name} in ${maze.name}</option>`);
+        if(game.botId == ""){
+            opts.push(`<option value='${game.gameId}'>${team.name} in ${maze.name}</option>`);
+        }
     });
 
     $('#selGame').html(opts);
