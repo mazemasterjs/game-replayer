@@ -71,6 +71,13 @@ function movePlayer(newRow, newCol) {
 async function loadGame(gameId) {
     curActNum = 0;
     curTrophies = [];
+
+    if (resetScore) {
+        resetScore = false;
+        totalScore = 1000;
+        moveCount = 0;
+    }
+
     $('#totalScore').text(totalScore);
     $('#moveCount').text(moveCount);
     $('#actionOutcomes').empty();
@@ -85,12 +92,6 @@ async function loadGame(gameId) {
 
     console.log('Loading maze #' + curGame.game.maze.id);
     await loadMaze(curGame.game.maze.id).then();
-
-    if (resetScore) {
-        resetScore = false;
-        totalScore = 1000;
-        moveCount = 0;
-    }
 }
 
 function startReplay() {
@@ -149,7 +150,7 @@ function nextAct() {
                     .removeAttr('selected')
                     .next('option')
                     .attr('selected', 'selected');
-                Game($('#selGame option:selected').val());
+                loadGame($('#selGame option:selected').val());
                 var theInterval = setInterval(function() {
                     clearInterval(theInterval);
                     startReplay();
