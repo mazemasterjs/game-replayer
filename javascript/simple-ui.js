@@ -123,15 +123,22 @@ function nextAct() {
 
         moveCount = moveCount + act.moveCount;
         $('#moveCount').text(moveCount);
+        renderCohesion(act.botCohesion);
         renderTrophies(act.trophies);
         renderOutcomes(act.outcomes);
     } else {
         clearInterval(replayTimer);
 
         // load the next game!
-        $('#selGame > option:selected').removeAttr('selected').next('option').attr('selected', 'selected');
+        $('#selGame > option:selected')
+            .removeAttr('selected')
+            .next('option')
+            .attr('selected', 'selected');
         loadGame($('#selGame option:selected').val());
-        var theInterval = setInterval(function() {clearInterval(theInterval); startReplay();}, 1000);
+        var theInterval = setInterval(function() {
+            clearInterval(theInterval);
+            startReplay();
+        }, 1000);
     }
 }
 
@@ -151,6 +158,24 @@ function prevAct() {
         renderOutcomes(act.outcomes);
         curActNum--;
     }
+}
+
+function renderCohesion(cScores) {
+    let cMsg = '';
+    for (let x = 0; x < cScores.length; x++) {
+        if (cScores[x] !== null) {
+            let bClass = 'botRed';
+            if (cScores[x] == 1) {
+                bClass = 'botGreen';
+            } else if (cScores[x] == 0.5) {
+                bClass = 'botYellow';
+            }
+
+            cMsg = cMsg + `<span class='botScore ${bClass}'>B${x + 1}</span>`;
+        }
+    }
+
+    $('#botCohesion').html(cMsg);
 }
 
 function renderTrophies(trophies) {
@@ -201,7 +226,7 @@ function loadGameSelect() {
             return m.id == game.mazeStub.id;
         });
 
-        if(game.botId == ""){
+        if (game.botId == '') {
             opts.push(`<option value='${game.gameId}'>${team.name} in ${maze.name}</option>`);
         }
     });

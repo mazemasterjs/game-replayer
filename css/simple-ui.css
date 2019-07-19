@@ -52,6 +52,7 @@ body {
     text-align: center;
     color: darkorange;
     font-size: 1.5rem;
+    margin-bottom: 0.25rem;
     border-bottom: solid 1px rgba(255, 140, 0, 0.5);
 }
 
@@ -77,6 +78,28 @@ body {
 
 .trophyCount {
     color: goldenrod;
+}
+
+.botScore {
+    font-size: 0.75rem;
+    color: whitesmoke;
+    border: solid 1px white;
+    border-radius: 3rem;
+    padding: 0.25rem;
+    margin: 1.5rem 0.25rem 0 0.25rem;
+    text-shadow: 2px 2px 0px black;
+}
+
+.botGreen {
+    background-color: green;
+}
+
+.botYellow {
+    background-color: darkgoldenrod;
+}
+
+.botRed {
+    background-color: darkred;
 }
 
 .maze-container {
