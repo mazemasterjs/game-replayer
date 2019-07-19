@@ -78,6 +78,7 @@ async function loadGame(gameId) {
     $('#gameTrophies').empty();
 
     clearInterval(replayTimer);
+    replayTimer = null;
 
     console.log('Loading game.id #' + gameId);
     curGame = await doAjax(GAME_URL + '/getFull/' + gameId);
@@ -98,6 +99,7 @@ function startReplay() {
 
 function stopReplay() {
     clearInterval(replayTimer);
+    replayTimer = null;
 }
 
 function nextAct() {
@@ -126,12 +128,17 @@ function nextAct() {
         renderTrophies(act.trophies);
         renderOutcomes(act.outcomes);
     } else {
-        clearInterval(replayTimer);
-
-        // load the next game!
-        $('#selGame > option:selected').removeAttr('selected').next('option').attr('selected', 'selected');
-        loadGame($('#selGame option:selected').val());
-        var theInterval = setInterval(function() {clearInterval(theInterval); startReplay();}, 1000);
+        if(null != replayTimer){
+            clearInterval(replayTimer);
+            replayTimer = null;
+    
+            // load the next game! (if it's the same team - compare first 10 characters of name)
+            if($('#selGame > option:selected').text().substr(0,10) == $('#selGame > option:selected').next('option').text().substr(0,10)){
+                $('#selGame > option:selected').removeAttr('selected').next('option').attr('selected', 'selected');
+                loadGame($('#selGame option:selected').val());
+                var theInterval = setInterval(function() {clearInterval(theInterval); startReplay();}, 1000);
+            }
+        }
     }
 }
 
