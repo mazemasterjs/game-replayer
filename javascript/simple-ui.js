@@ -35,6 +35,10 @@ async function loadData() {
     ALL_GAME_STUBS = await doAjax(GAME_URL + '/get');
     console.log(ALL_GAME_STUBS.length + ' game stubs loaded.');
 
+    ALL_GAME_STUBS.sort(function(a,b){
+        return a.score.lastUpdated - b.score.lastUpdated;
+    });
+
     ALL_TROPHIES = await doAjax(TROPHY_URL + '/get');
     console.log(ALL_TROPHIES.length + ' trophies loaded.');
 }
