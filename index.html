@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Simple UI</title>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Quicksand&display=swap" rel="stylesheet" />
+        <link href="css/simple-ui.css" rel="stylesheet" type="text/css" />
+        <script src="http://mazemasterjs.com/media/js_static/js.cookie.min.js"></script>
+        <script src="javascript/jquery-3.4.1.js" type="text/javascript"></script>
+        <script src="http://mazemasterjs.com/media/js_static/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+        <!-- <script src="javascript/enums.mjs" type="text/javascript"></script> -->
+        <script src="javascript/renderFuncs.js" type="text/javascript"></script>
+        <script src="javascript/simple-ui.js" type="text/javascript"></script>
+    </head>
+
+    <body onresize="resizePage()">
+        <div id="loadingScreen">
+            <p><img src="images/mazemaster-logo.png" /></p>
+            <!-- <p><i class="material-icons">cloud_download</i> <span id="loadingMessage">Loading...</span> <i class="material-icons">cloud_download</i></p> -->
+        </div>
+
+        <div id="page-container">
+            <div id="controls">
+                <div class="optionsContainer">
+                    <select id="selGame"></select>
+                    <button id="loadGame" class="btnEnabled">Load Game</button>
+                </div>
+                <div class="optionsContainer">
+                    <button id="btnRun" class="controls btnEnabled">Run</button>
+                    <button id="btnStop" class="controls btnEnabled">Stop</button>
+                    <button id="btnStepForward" class="controls btnEnabled">Forward</button>
+                    <button id="btnStepBack" class="controls btnEnabled">Back</button>
+                </div>
+            </div>
+            <div>
+                <div id="mazeView" class="maze-container"></div>
+            </div>
+        </div>
+
+        <div id="actionLog" hidden>
+            <div class="actionLabel">SCORE</div>
+            <div id="totalScore" class="actionValue">1000</div>
+            <div class="actionLabel">MOVES</div>
+            <div id="moveCount" class="actionValue">0</div>
+            <div class="actionLabel">TROPHIES</div>
+            <div id="gameTrophies" class="actionValue"></div>
+            <div class="actionLabel">OUTCOMES</div>
+            <div id="actionOutcomes"></div>
+        </div>
+
+        <footer>
+            <script>
+                'use strict';
+                $().ready(async () => {
+                    await loadData();
+
+                    $('#loadGame').click(() => {
+                        loadGame($('#selGame option:selected').val());
+                    });
+
+                    $('#btnRun').click(function() {
+                        startReplay();
+                    });
+
+                    $('#btnStop').click(function() {
+                        stopReplay();
+                    });
+                    $('#btnStepForward').click(function() {
+                        nextAct();
+                    });
+                    $('#btnStepBack').click(function() {
+                        prevAct();
+                    });
+                    $('#btnWest').click(function() {
+                        alert('not mapped');
+                    });
+
+                    loadGameSelect();
+                }); // $().ready
+
+                function resizePage() {
+                    resizeGrid(curMaze);
+                    $('#actionLog').position({
+                        my: 'left top',
+                        at: 'right+10 top',
+                        of: '#mazeView',
+                        collision: 'fit'
+                    });
+                }
+            </script>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,258 @@
+:root {
+    --rows: 5;
+    --cols: 5;
+    --wallWidth: 1px;
+    --edgeWidth: 1px;
+    --exitWidth: 1px;
+    --mazeViewSize: 50vw;
+    --maxMazeViewHeight: 90vh;
+    --cellPathFontSize: 1rem;
+    --cellIconFontSize: 1rem;
+    --wallColor: rgb(173, 173, 173);
+    --exitColor: rgba(124, 124, 124, 0.3);
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 12px;
+    background-color: rgb(0, 0, 0);
+    color: antiquewhite;
+}
+
+#page-container {
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    grid-template-columns: auto;
+    grid-template-rows: auto auto;
+}
+
+#mazeView {
+    align-content: center;
+    justify-content: center;
+}
+
+#controls {
+    text-align: center;
+    align-content: center;
+    justify-content: center;
+}
+
+#actionLog {
+    display: grid;
+    min-width: 25rem;
+    max-width: 25rem;
+
+    visibility: hidden;
+    margin-top: 1rem;
+    grid-template-columns: auto;
+}
+
+.actionLabel {
+    text-align: center;
+    color: darkorange;
+    font-size: 1.5rem;
+    border-bottom: solid 1px rgba(255, 140, 0, 0.5);
+}
+
+.actionValue {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.25rem;
+    color: whitesmoke;
+    margin-bottom: 1rem;
+}
+
+#actionOutcomes {
+    text-align: center;
+    text-overflow: ellipsis;
+    color: whitesmoke;
+    font-size: 1rem;
+}
+
+#gameTrophies p {
+    margin: 0.25rem;
+    padding: 0;
+}
+
+.trophyCount {
+    color: goldenrod;
+}
+
+.maze-container {
+    min-width: 285px;
+    max-height: var(--maxMazeViewHeight);
+    width: var(--mazeViewSize);
+    height: var(--mazeViewSize);
+    margin-top: 1rem;
+    display: grid;
+    grid-template-columns: repeat(var(--cols), 1px);
+    grid-template-rows: repeat(var(--rows), 1px);
+    grid-gap: 0px;
+}
+.grid-item {
+    display: flex;
+    padding: 0px;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    font-size: 2rem;
+}
+
+h5 {
+    margin: 0;
+    text-align: center;
+}
+#selGame {
+    display: inline;
+}
+
+#btnLoadGame {
+    display: inline;
+}
+
+#loadingScreen {
+    display: none;
+    position: fixed;
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+}
+#loadingScreen > p {
+    line-height: 100vh;
+    background-color: rgba(0, 0, 0, 0.75);
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.95);
+    font-size: 5rem;
+    color: rgb(255, 0, 0);
+    margin: 0;
+}
+#loadingScreen > p > i {
+    position: relative;
+    top: 0.17em;
+    font-size: 0.9em;
+}
+
+.optionsContainer {
+    font-size: 1.25rem;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.optionsContainer > select {
+    display: block;
+    min-width: 15rem;
+}
+
+#controlsContainer {
+    text-align: center;
+    font-size: 1.25rem;
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+    grid-template-columns: repeat(var(3), 250px);
+    grid-template-rows: repeat(var(3), 250px);
+}
+
+.cell {
+    background-color: rgb(0, 0, 0);
+    border: solid var(--wallWidth) var(--wallColor);
+    font-size: var(--cellIconFontSize);
+}
+
+.player {
+    background-image: url('../images/rat-svgrepo-com.svg');
+    background-size: 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.cStart {
+    border-top: dotted var(--wallWidth) rgb(255, 0, 0);
+    color: rgba(255, 0, 0);
+    font-size: var(--cellPathFontSize);
+    padding-bottom: 1em;
+}
+
+.cFinish {
+    border-bottom: dotted var(--wallWidth) rgb(0, 255, 0);
+    color: rgba(0, 255, 0);
+    font-size: var(--cellPathFontSize);
+    padding-top: 1em;
+}
+
+.cPath {
+    color: rgba(0, 128, 0, 0.5);
+    font-size: var(--cellPathFontSize);
+}
+
+.cTrap {
+    color: red;
+    font-size: var(--cellIconFontSize);
+    background-color: rgba(139, 0, 0, 0.15);
+}
+
+.ceNorth {
+    border-top: dashed var(--exitWidth) var(--exitColor);
+}
+
+.ceSouth {
+    border-bottom: dashed var(--exitWidth) var(--exitColor);
+}
+
+.ceEast {
+    border-right: dashed var(--exitWidth) var(--exitColor);
+}
+
+.ceWest {
+    border-left: dashed var(--exitWidth) var(--exitColor);
+}
+
+.cwNorth {
+    border-top: solid var(--edgeWidth) var(--wallColor);
+}
+
+.cwSouth {
+    border-bottom: solid var(--edgeWidth) var(--wallColor);
+}
+
+.cwEast {
+    border-right: solid var(--edgeWidth) var(--wallColor);
+}
+
+.cwWest {
+    border-left: solid var(--edgeWidth) var(--wallColor);
+}
+
+select {
+    background: rgb(55, 55, 55);
+    color: antiquewhite;
+    border: solid 1px lightslategray;
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+    width: fit-content;
+}
+
+.btnEnabled {
+    font-size: 0.9rem;
+    border: 1px solid #a38762;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    text-shadow: -1px -1px 1px 1px rgba(0, 0, 0, 0.5);
+    color: antiquewhite;
+    background-color: #96877333;
+    background-image: linear-gradient(to bottom, #a38762, #3b362e33);
+}
+
+.btnEnabled:hover {
+    border: 1px solid #a17b10;
+    text-shadow: 1px 1px -1px -1px rgba(0, 0, 0, 0.5);
+    background-image: linear-gradient(to bottom, #3b362e33, #a38762);
+}
+
+.btnDisabled {
+    font-size: 0.9rem;
+    border: 1px solid hsla(34, 26%, 51%, 0.5);
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    color: rgba(250, 235, 215, 0.5) !important;
+    background-color: hsla(34, 14%, 52%, 0.2);
+}
